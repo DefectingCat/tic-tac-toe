@@ -1,9 +1,17 @@
 import React, { FC } from 'react';
+import { ReactComponent as O } from 'assets/O.svg';
+import { ReactComponent as X } from 'assets/X.svg';
+import './game.css';
 
 interface Props {
-  value: string | null;
+  value: 'X' | 'O' | null;
   onClick: () => void;
 }
+
+const validObj = {
+  X: <X />,
+  O: <O />,
+};
 
 const Square: FC<Props> = ({ value, onClick }) => {
   return (
@@ -12,7 +20,7 @@ const Square: FC<Props> = ({ value, onClick }) => {
         className="text-center h-14 w-14 leading-14 text-5xl select-none bg-[#fff]"
         onClick={onClick}
       >
-        {value}
+        {value && validObj[value]}
       </button>
     </>
   );

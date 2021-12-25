@@ -3,7 +3,7 @@ import Board from './Board';
 import { useImmer } from 'use-immer';
 import GameInfo from './GameInfo';
 
-type Squares = (string | null)[];
+type Squares = ('X' | 'O' | null)[];
 export type SquaresState = {
   id: number;
   squares: Squares;
@@ -12,7 +12,7 @@ export type SquaresState = {
 export interface State {
   history: SquaresState[];
   xIsNext: boolean;
-  winner: string | null;
+  winner?: string | null;
   stepNumber: number;
   current: SquaresState;
 }
@@ -48,16 +48,24 @@ const Game: FC = () => {
       [2, 4, 6],
     ];
 
-    let winner: string | null = null;
-    lines.map(
+    // let winner: string | null = null;
+    // lines.map(
+    //   (line) =>
+    //     squares[line[0]] &&
+    //     squares[line[0]] === squares[line[1]] &&
+    //     squares[line[0]] === squares[line[2]] &&
+    //     (winner = squares[line[0]])
+    // );
+
+    // return winner;
+
+    const line = lines.find(
       (line) =>
         squares[line[0]] &&
         squares[line[0]] === squares[line[1]] &&
-        squares[line[0]] === squares[line[2]] &&
-        (winner = squares[line[0]])
+        squares[line[0]] === squares[line[2]]
     );
-
-    return winner;
+    return line && squares[line[0]];
   };
 
   const updateGame = useCallback(
@@ -71,7 +79,12 @@ const Game: FC = () => {
         draft.xIsNext = draft.stepNumber % 2 === 0;
         draft.history = draft.history.slice(0, draft.stepNumber);
         draft.history.push(draft.current);
-        draft.winner = calculateWinner(draft.current.squares);
+
+        if (draft.current.squares.every((item) => item != null)) {
+          draft.winner = 'Game over!';
+        } else {
+          draft.winner = calculateWinner(draft.current.squares);
+        }
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -87,11 +100,20 @@ const Game: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const resetGame = useCallback(() => {
+    setGameState(() => initialStates);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <div className="flex">
         <div className="mr-4">
-          <Board state={gameState} updateGame={updateGame} />
+          <Board
+            state={gameState}
+            updateGame={updateGame}
+            resetGame={resetGame}
+          />
         </div>
         <ul>
           {gameState.history.map((item) => (

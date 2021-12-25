@@ -1,0 +1,8 @@
+<svg aria-label="X" role="img" viewBox="0 0 128 128" style="visibility: visible;">
+  <path class="X" id="XL" d="M16,16L112,112"
+    style="stroke: rgb(84, 84, 84); stroke-dasharray: 360; stroke-dashoffset: 0; fill: none; stroke-width: 14px">
+  </path>
+  <path class="X" id="XR" d="M112,16L16,112"
+    style="stroke: rgb(84, 84, 84); stroke-dasharray: 360; stroke-dashoffset: 0; fill: none; stroke-width: 14px">
+  </path>
+</svg>
