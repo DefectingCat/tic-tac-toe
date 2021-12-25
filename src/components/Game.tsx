@@ -17,20 +17,17 @@ export interface State {
   current: SquaresState;
 }
 
+const initailSetp = {
+  id: 0,
+  squares: Array(9).fill(null),
+};
+
 const initialStates = {
-  history: [
-    {
-      id: 0,
-      squares: Array(9).fill(null),
-    },
-  ],
+  history: [initailSetp],
   xIsNext: true,
   winner: null,
   stepNumber: 0,
-  current: {
-    id: 0,
-    squares: Array(9).fill(null),
-  },
+  current: initailSetp,
 };
 
 const Game: FC = () => {
