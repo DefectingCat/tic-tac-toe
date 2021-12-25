@@ -17,7 +17,7 @@ const Square: FC<Props> = ({ value, onClick }) => {
   return (
     <>
       <button
-        className="text-center h-14 w-14 leading-14 text-5xl select-none bg-[#fff]"
+        className="text-center h-14 w-14 leading-14 text-5xl select-none bg-[#14bdac]"
         onClick={onClick}
       >
         {value && validObj[value]}

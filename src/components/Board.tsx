@@ -21,7 +21,7 @@ const Board: FC<Props> = ({ state, updateGame, resetGame }) => {
             : `Winner: ${winner}`
           : `Next player: ${xIsNext ? 'X' : 'O'}`}
       </p>
-      <div className="inline-grid grid-rows-3 grid-cols-3 bg-gray-400 gap-1">
+      <div className="inline-grid grid-rows-3 grid-cols-3 bg-[#70757a] gap-1">
         {squares.map((square, index) => (
           <Square
             key={index}
@@ -33,7 +33,7 @@ const Board: FC<Props> = ({ state, updateGame, resetGame }) => {
       <div className="flex justify-center items-center">
         <button
           onClick={resetGame}
-          className="text-xl text-center my-2 rounded-xl border p-2 hover:bg-gray-200 transition"
+          className="text-xl text-center my-2 rounded-xl border p-2 hover:bg-gray-200 hover:text-gray-500 transition"
         >
           Reset game
         </button>
