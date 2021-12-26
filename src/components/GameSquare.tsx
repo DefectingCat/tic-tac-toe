@@ -16,12 +16,12 @@ const validObj = {
 const Square: FC<Props> = ({ value, onClick }) => {
   return (
     <>
-      <button
-        className="text-center h-14 w-14 leading-14 text-5xl select-none bg-[#14bdac]"
+      <div
+        className="flex justify-center item-center cursor-pointer h-20 w-20 select-none bg-[#fff]"
         onClick={onClick}
       >
         {value && validObj[value]}
-      </button>
+      </div>
     </>
   );
 };

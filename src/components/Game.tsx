@@ -1,33 +1,39 @@
 import { FC, useCallback } from 'react';
-import Board from './Board';
+import GameBoard from './GameBoard';
 import { useImmer } from 'use-immer';
 import GameInfo from './GameInfo';
 
 type Squares = ('X' | 'O' | null)[];
-export type SquaresState = {
+export type Step = {
   id: number;
+  next: 'X' | 'O';
+  winner?: 'X' | 'O' | null;
   squares: Squares;
 };
 
 export interface State {
-  history: SquaresState[];
-  xIsNext: boolean;
-  winner?: string | null;
-  stepNumber: number;
-  current: SquaresState;
+  history: Step[];
+  current: Step;
 }
 
-const initailSetp = {
+const initailSetp: Step = {
   id: 0,
+  next: 'X',
+  winner: null,
   squares: Array(9).fill(null),
 };
 
 const initialStates = {
   history: [initailSetp],
-  xIsNext: true,
-  winner: null,
-  stepNumber: 0,
   current: initailSetp,
+};
+
+const validNext: {
+  X: 'O';
+  O: 'X';
+} = {
+  X: 'O',
+  O: 'X',
 };
 
 const Game: FC = () => {
@@ -67,32 +73,23 @@ const Game: FC = () => {
 
   const updateGame = useCallback(
     (i: number) => {
-      if (gameState.winner) return;
+      if (gameState.current.winner) return;
 
       setGameState((draft) => {
-        draft.current.squares[i] = draft.xIsNext ? 'X' : 'O';
+        draft.current.squares[i] = draft.current.next;
         draft.current.id = draft.current.id + 1;
-        draft.stepNumber = draft.current.id;
-        draft.xIsNext = draft.stepNumber % 2 === 0;
-        draft.history = draft.history.slice(0, draft.stepNumber);
+        draft.current.next = validNext[draft.current.next];
+        draft.history = draft.history.slice(0, draft.current.id);
         draft.history.push(draft.current);
-
-        if (draft.current.squares.every((item) => item != null)) {
-          draft.winner = 'Game over!';
-        } else {
-          draft.winner = calculateWinner(draft.current.squares);
-        }
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [gameState.winner]
+    [gameState.current.winner]
   );
 
   const timeTravel = useCallback((id: number) => {
     setGameState((draft) => {
       draft.current = draft.history.find((item) => item.id === id)!;
-      draft.stepNumber = id;
-      draft.xIsNext = id % 2 === 0;
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -102,23 +99,32 @@ const Game: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const updateNext = useCallback(() => {
+    setGameState((draft) => {
+      draft.current.next = validNext[draft.current.next];
+    });
+  }, []);
+
   return (
     <>
-      <div className="flex">
-        <div className="mr-4">
-          <Board
-            state={gameState}
-            updateGame={updateGame}
-            resetGame={resetGame}
-          />
+      <div className="flex h-[100vh] justify-center items-center">
+        <div className="flex">
+          <div className="mr-6">
+            <GameBoard
+              step={gameState.current}
+              updateGame={updateGame}
+              resetGame={resetGame}
+            />
+          </div>
+
+          <ul>
+            {gameState.history.map((item) => (
+              <li key={item.id}>
+                <GameInfo step={item} onClick={() => timeTravel(item.id)} />
+              </li>
+            ))}
+          </ul>
         </div>
-        <ul>
-          {gameState.history.map((item) => (
-            <li key={item.id}>
-              <GameInfo square={item} onClick={() => timeTravel(item.id)} />
-            </li>
-          ))}
-        </ul>
       </div>
     </>
   );

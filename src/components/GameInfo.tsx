@@ -1,20 +1,18 @@
 import { FC } from 'react';
-import { SquaresState } from './Game';
+import type { Step } from './Game';
+import Button from '@mui/material/Button';
 
 interface Props {
-  square: SquaresState;
+  step: Step;
   onClick: () => void;
 }
 
-const GameInfo: FC<Props> = ({ square, onClick }) => {
+const GameInfo: FC<Props> = ({ step, onClick }) => {
   return (
     <>
-      <button
-        onClick={onClick}
-        className="border p-2 rounded-xl hover:bg-gray-200 hover:text-gray-500 transition-all my-1"
-      >
-        {square.id === 0 ? 'Go to game start' : `Go to move #${square.id}`}
-      </button>
+      <Button onClick={onClick}>
+        {step.id === 0 ? 'Go to game start' : `Go to move #${step.id}`}
+      </Button>
     </>
   );
 };
