@@ -4,7 +4,8 @@ import Fab from '@mui/material/Fab';
 import GameTurn from './GameTurn';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { moveStep, resetGame, changeFirst } from 'features/game/gameSlice';
-import GameCharacter from 'components/common/GameCharacter';
+import Grow from '@mui/material/Grow';
+import GameWinner from './GameWinner';
 
 const Board: FC = () => {
   const { next, winner, squares } = useAppSelector(
@@ -34,15 +35,28 @@ const Board: FC = () => {
   return (
     <>
       <div className="text-2xl text-center">
-        {winner && <GameCharacter value={winner} />}
         <GameTurn next={next} changeFirst={handleChangeFirst} />
       </div>
 
-      <div className="inline-grid grid-rows-3 grid-cols-3 gap-[7px] bg-gray-300 my-4">
-        {squares.map((square, index) => (
-          <GameSquare key={index} value={square} onClick={handleMove(index)} />
-        ))}
-      </div>
+      <Grow in timeout={1000}>
+        <div className="relative my-4">
+          <div className="inline-grid grid-rows-3 grid-cols-3 gap-[7px] bg-gray-300">
+            {squares.map((square, index) => (
+              <GameSquare
+                key={index}
+                value={square}
+                onClick={handleMove(index)}
+              />
+            ))}
+          </div>
+
+          {winner && (
+            <div className="absolute top-0 left-0">
+              <GameWinner winner={winner} />
+            </div>
+          )}
+        </div>
+      </Grow>
 
       <div className="flex justify-center items-center">
         <Fab variant="extended" onClick={handleReset} color="primary">

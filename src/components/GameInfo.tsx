@@ -9,9 +9,11 @@ interface Props {
 const GameInfo: FC<Props> = ({ stepId, onClick }) => {
   return (
     <>
-      <Button onClick={onClick}>
-        {stepId === 0 ? 'Go to game start' : `Go to move #${stepId}`}
-      </Button>
+      <li>
+        <Button onClick={onClick}>
+          {stepId === 0 ? 'Go to game start' : `Go to move #${stepId}`}
+        </Button>
+      </li>
     </>
   );
 };
