@@ -6,7 +6,8 @@ export type Squares = Character[];
 export type Step = {
   id: number;
   next: 'X' | 'O';
-  winner?: 'X' | 'O' | null;
+  // D means darw game
+  winner?: 'X' | 'O' | 'D' | null;
   squares: Squares;
 };
 
@@ -51,7 +52,13 @@ export const counterSlice = createSlice({
       current.squares[action.payload] = current.next;
       current.id = current.id + 1;
       current.next = validNext[current.next];
-      current.winner = calculateWinner(current.squares);
+
+      const winner = calculateWinner(current.squares);
+      if (!winner && current.squares.every((item) => item !== null)) {
+        current.winner = 'D';
+      } else {
+        current.winner = winner;
+      }
 
       // After time travel, it's can be make new history
       state.history = state.history.slice(0, current.id);
