@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import calculateWinner from 'lib/utils/calculateWinner';
 
-export type Squares = ('X' | 'O' | null)[];
+export type Character = 'X' | 'O' | null;
+export type Squares = Character[];
 export type Step = {
   id: number;
   next: 'X' | 'O';
@@ -46,8 +47,6 @@ export const counterSlice = createSlice({
      * @returns
      */
     moveStep: (state, action: PayloadAction<number>) => {
-      if (state.current.winner) return;
-
       const { current } = state;
       current.squares[action.payload] = current.next;
       current.id = current.id + 1;
@@ -69,9 +68,8 @@ export const counterSlice = createSlice({
       state.current = state.history.find((step) => step.id === action.payload)!;
     },
     resetGame: () => initialState,
-    changeFirst: ({ current, history }) => {
-      if (history.length > 1) return;
-      current.next = validNext[current.next];
+    changeFirst: ({ current }, action: PayloadAction<'X' | 'O'>) => {
+      current.next = action.payload;
     },
   },
 });

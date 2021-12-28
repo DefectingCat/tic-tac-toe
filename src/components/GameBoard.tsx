@@ -1,52 +1,51 @@
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 import GameSquare from './GameSquare';
 import Fab from '@mui/material/Fab';
 import GameTurn from './GameTurn';
-import { ReactComponent as O } from 'assets/O.svg';
-import { ReactComponent as X } from 'assets/X.svg';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { moveStep, resetGame } from 'features/game/gameSlice';
-
-const validObj = {
-  X: <X />,
-  O: <O />,
-};
+import { moveStep, resetGame, changeFirst } from 'features/game/gameSlice';
+import GameCharacter from 'components/common/GameCharacter';
 
 const Board: FC = () => {
   const { next, winner, squares } = useAppSelector(
     (state) => state.game.current
   );
+  const history = useAppSelector((state) => state.game.history);
   const dispatch = useAppDispatch();
+
+  const handleMove = useCallback(
+    (i: number) => () => {
+      if (winner) return;
+      dispatch(moveStep(i));
+    },
+    [dispatch, winner]
+  );
+
+  const handleReset = () => {
+    if (history.length < 2) return;
+    dispatch(resetGame());
+  };
+
+  const handleChangeFirst = (character: 'X' | 'O') => {
+    if (history.length > 1) return;
+    dispatch(changeFirst(character));
+  };
 
   return (
     <>
       <div className="text-2xl text-center">
-        {winner && validObj[winner]}
-
-        {/* <div className="flex items-center justify-center">
-          Next player:
-          <div className="inline-block w-10 h-10">{validObj[next]}</div>
-        </div> */}
-
-        <GameTurn next={next} />
+        {winner && <GameCharacter value={winner} />}
+        <GameTurn next={next} changeFirst={handleChangeFirst} />
       </div>
 
       <div className="inline-grid grid-rows-3 grid-cols-3 gap-[7px] bg-gray-300 my-4">
         {squares.map((square, index) => (
-          <GameSquare
-            key={index}
-            value={square}
-            onClick={() => dispatch(moveStep(index))}
-          />
+          <GameSquare key={index} value={square} onClick={handleMove(index)} />
         ))}
       </div>
 
       <div className="flex justify-center items-center">
-        <Fab
-          variant="extended"
-          onClick={() => dispatch(resetGame())}
-          color="primary"
-        >
+        <Fab variant="extended" onClick={handleReset} color="primary">
           Reset game
         </Fab>
       </div>

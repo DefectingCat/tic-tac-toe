@@ -1,20 +1,19 @@
-import { FC } from 'react';
-import type { Step } from 'features/game/gameSlice';
+import React, { FC } from 'react';
 import Button from '@mui/material/Button';
 
 interface Props {
-  step: Step;
+  stepId: number;
   onClick: () => void;
 }
 
-const GameInfo: FC<Props> = ({ step, onClick }) => {
+const GameInfo: FC<Props> = ({ stepId, onClick }) => {
   return (
     <>
       <Button onClick={onClick}>
-        {step.id === 0 ? 'Go to game start' : `Go to move #${step.id}`}
+        {stepId === 0 ? 'Go to game start' : `Go to move #${stepId}`}
       </Button>
     </>
   );
 };
 
-export default GameInfo;
+export default React.memo(GameInfo);

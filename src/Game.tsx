@@ -20,7 +20,7 @@ const Game: FC = () => {
             {history.map((item) => (
               <li key={item.id}>
                 <GameInfo
-                  step={item}
+                  stepId={item.id}
                   onClick={() => dispatch(timeTravel(item.id))}
                 />
               </li>

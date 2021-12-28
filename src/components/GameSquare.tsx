@@ -1,17 +1,11 @@
 import React, { FC } from 'react';
-import { ReactComponent as O } from 'assets/O.svg';
-import { ReactComponent as X } from 'assets/X.svg';
-import './game.css';
+import GameCharacter from 'components/common/GameCharacter';
+import type { Character } from 'features/game/gameSlice';
 
 interface Props {
-  value: 'X' | 'O' | null;
+  value: Character;
   onClick: () => void;
 }
-
-const validObj = {
-  X: <X />,
-  O: <O />,
-};
 
 const Square: FC<Props> = ({ value, onClick }) => {
   return (
@@ -20,7 +14,7 @@ const Square: FC<Props> = ({ value, onClick }) => {
         className="flex justify-center item-center cursor-pointer h-20 w-20 select-none bg-[#fff]"
         onClick={onClick}
       >
-        {value && validObj[value]}
+        {value && <GameCharacter value={value} />}
       </div>
     </>
   );
