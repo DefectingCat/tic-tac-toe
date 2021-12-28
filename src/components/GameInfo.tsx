@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import type { Step } from './Game';
+import type { Step } from 'features/game/gameSlice';
 import Button from '@mui/material/Button';
 
 interface Props {

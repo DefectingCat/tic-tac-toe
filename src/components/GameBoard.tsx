@@ -1,24 +1,22 @@
 import { FC } from 'react';
 import GameSquare from './GameSquare';
-import type { Step } from './Game';
 import Fab from '@mui/material/Fab';
 import GameTurn from './GameTurn';
 import { ReactComponent as O } from 'assets/O.svg';
 import { ReactComponent as X } from 'assets/X.svg';
-
-interface Props {
-  step: Step;
-  updateGame: (i: number) => void;
-  resetGame: () => void;
-}
+import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { moveStep, resetGame } from 'features/game/gameSlice';
 
 const validObj = {
   X: <X />,
   O: <O />,
 };
 
-const Board: FC<Props> = ({ step, updateGame, resetGame }) => {
-  const { squares, winner, next } = step;
+const Board: FC = () => {
+  const { next, winner, squares } = useAppSelector(
+    (state) => state.game.current
+  );
+  const dispatch = useAppDispatch();
 
   return (
     <>
@@ -38,13 +36,17 @@ const Board: FC<Props> = ({ step, updateGame, resetGame }) => {
           <GameSquare
             key={index}
             value={square}
-            onClick={() => updateGame(index)}
+            onClick={() => dispatch(moveStep(index))}
           />
         ))}
       </div>
 
       <div className="flex justify-center items-center">
-        <Fab variant="extended" onClick={resetGame} color="primary">
+        <Fab
+          variant="extended"
+          onClick={() => dispatch(resetGame())}
+          color="primary"
+        >
           Reset game
         </Fab>
       </div>
