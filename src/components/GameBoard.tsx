@@ -51,7 +51,7 @@ const Board: FC = () => {
           </div>
 
           {winner && (
-            <div className="absolute top-0 left-0">
+            <div className="absolute top-0 left-0 cursor-pointer">
               <GameWinner winner={winner} />
             </div>
           )}

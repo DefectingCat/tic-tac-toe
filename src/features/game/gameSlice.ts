@@ -68,8 +68,9 @@ export const counterSlice = createSlice({
       state.current = state.history.find((step) => step.id === action.payload)!;
     },
     resetGame: () => initialState,
-    changeFirst: ({ current }, action: PayloadAction<'X' | 'O'>) => {
+    changeFirst: ({ current, history }, action: PayloadAction<'X' | 'O'>) => {
       current.next = action.payload;
+      history[0].next = action.payload;
     },
   },
 });

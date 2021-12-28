@@ -19,7 +19,7 @@ const GameWinner: FC<Props> = ({ winner }) => {
           <div className="h-52 w-52">
             <GameCharacter value={winner} />
           </div>
-          <div className="text-3xl">WINNER!</div>
+          <div className="text-3xl select-none">WINNER!</div>
         </div>
       </Grow>
     </>
