@@ -3,12 +3,7 @@ import GameSquare from './GameSquare';
 import Fab from '@mui/material/Fab';
 import GameTurn from './GameTurn';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import {
-  moveStep,
-  resetGame,
-  changeFirst,
-  Character,
-} from 'features/game/gameSlice';
+import { moveStep, resetGame, changeFirst } from 'features/game/gameSlice';
 import Grow from '@mui/material/Grow';
 import GameWinner from './GameWinner';
 
@@ -20,8 +15,8 @@ const Board: FC = () => {
   const dispatch = useAppDispatch();
 
   const handleMove = useCallback(
-    (square: Character, i: number) => () => {
-      if (winner || square) return;
+    (i: number) => {
+      if (winner) return;
       dispatch(moveStep(i));
     },
     [dispatch, winner]
@@ -50,7 +45,8 @@ const Board: FC = () => {
               <GameSquare
                 key={index}
                 value={square}
-                onClick={handleMove(square, index)}
+                index={index}
+                handleMove={handleMove}
               />
             ))}
           </div>

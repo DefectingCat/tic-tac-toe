@@ -7,7 +7,7 @@ export type Step = {
   id: number;
   next: 'X' | 'O';
   // D means darw game
-  winner?: 'X' | 'O' | 'D' | null;
+  winner: 'X' | 'O' | 'D' | null;
   squares: Squares;
 };
 

@@ -18,7 +18,7 @@ const calculateWinner = (squares: Squares) => {
       squares[line[0]] === squares[line[1]] &&
       squares[line[0]] === squares[line[2]]
   );
-  return line && squares[line[0]];
+  return line ? squares[line[0]] : null;
 };
 
 export default calculateWinner;

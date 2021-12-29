@@ -3,14 +3,14 @@ import Button from '@mui/material/Button';
 
 interface Props {
   stepId: number;
-  onClick: () => void;
+  onClick: (stepId: number) => void;
 }
 
 const GameInfo: FC<Props> = ({ stepId, onClick }) => {
   return (
     <>
       <li>
-        <Button onClick={onClick}>
+        <Button onClick={() => onClick(stepId)}>
           {stepId === 0 ? 'Go to game start' : `Go to move #${stepId}`}
         </Button>
       </li>

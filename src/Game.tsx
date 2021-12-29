@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 import GameBoard from './components/GameBoard';
 import GameInfo from './components/GameInfo';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
@@ -9,6 +9,13 @@ import Collapse from '@mui/material/Collapse';
 const Game: FC = () => {
   const history = useAppSelector((state) => state.game.history);
   const dispatch = useAppDispatch();
+
+  const handleTimeTravel = useCallback(
+    (stepId: number) => {
+      dispatch(timeTravel(stepId));
+    },
+    [dispatch]
+  );
 
   return (
     <>
@@ -22,10 +29,7 @@ const Game: FC = () => {
             <TransitionGroup>
               {history.map((item) => (
                 <Collapse key={item.id}>
-                  <GameInfo
-                    stepId={item.id}
-                    onClick={() => dispatch(timeTravel(item.id))}
-                  />
+                  <GameInfo stepId={item.id} onClick={handleTimeTravel} />
                 </Collapse>
               ))}
             </TransitionGroup>
