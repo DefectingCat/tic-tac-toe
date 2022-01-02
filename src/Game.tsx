@@ -20,12 +20,12 @@ const Game: FC = () => {
   return (
     <>
       <div className="flex h-[100vh] justify-center items-center">
-        <div className="flex">
-          <div className="mr-6">
+        <div className="flex-1 sm:flex-none grid grid-rows-[repeat(2,_minmax(0,_1fr))_200px] sm:grid-rows-1 sm:grid-cols-2 gap-y-4 justify-items-center">
+          <div className="row-span-2">
             <GameBoard />
           </div>
 
-          <ul>
+          <ul className="overflow-y-auto w-full flex justify-center">
             <TransitionGroup>
               {history.map((item) => (
                 <Collapse key={item.id}>
