@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { timeTravel } from 'features/game/gameSlice';
 import { TransitionGroup } from 'react-transition-group';
 import Collapse from '@mui/material/Collapse';
+import Footer from 'components/Footer';
 
 const Game: FC = () => {
   const history = useAppSelector((state) => state.game.history);
@@ -20,7 +21,7 @@ const Game: FC = () => {
   return (
     <>
       <div className="flex h-[100vh] justify-center items-center">
-        <div className="flex-1 sm:flex-none grid grid-rows-[repeat(2,_minmax(0,_1fr))_200px] sm:grid-rows-1 sm:grid-cols-2 gap-y-4 justify-items-center">
+        <div className="flex-1 sm:flex-none grid grid-rows-[repeat(2,_minmax(0,_1fr))_200px] sm:grid-rows-1 sm:grid-cols-2 gap-y-4 sm:gap-0 justify-items-center">
           <div className="row-span-2">
             <GameBoard />
           </div>
@@ -34,6 +35,7 @@ const Game: FC = () => {
               ))}
             </TransitionGroup>
           </ul>
+          <Footer />
         </div>
       </div>
     </>
